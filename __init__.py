@@ -17,6 +17,10 @@ def hello():
 @app.route('/fr/')                                                                                                                     
 def hello_world_fr():                                                                                                                  
     return "<h2>Bonjour tout le monde !</h2>" 
+    
+    @app.route('/test/')                                                                                                                     
+def test1():                                                                                                                  
+     conn = get_db_connection() 
 
 # Création d'une nouvelle route pour la lecture de la BDD
 @app.route('/lecture/')
