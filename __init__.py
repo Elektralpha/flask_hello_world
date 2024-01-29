@@ -13,7 +13,7 @@ def hello_world_fr():
     return "<h2>Bonjour tout le monde !</h2>"
 
 @app.route('/EntreeDonnee/')
-def hello_world_fr():
+def Donnee():
     return "<h2>donne1</h2>"
 
 
