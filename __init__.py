@@ -1,39 +1,55 @@
-from flask import Flask                                                                                                                
-from flask import render_template                                                                                                      
-from flask import json                                                                                                                 
+from flask import Flask, render_template_string
 import sqlite3
 
-def get_db_connection():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+app = Flask(__name__)                                                                                                                  
+                                                                                                                                       
+@app.route('/')
+def hello_world():
+    return render_template('hello.html')
 
-app = Flask(__name__)
-
-@app.route("/")
-def hello():
-    return "Hello World!"
-
-@app.route('/fr/')                                                                                                                     
-def hello_world_fr():                                                                                                                  
-    return "<h2>Bonjour tout le monde !</h2>" 
-    
-@app.route('/test/')                                                                                                                     
-def test1():                                                                                                                  
-     conn = get_db_connection() 
+@app.route('/fr/')
+def hello_world_fr():
+    return "<h2>Bonjour tout le monde !</h2>"
 
 # Création d'une nouvelle route pour la lecture de la BDD
 @app.route('/lecture/')
 def ReadBDD():
-    conn = get_db_connection()
-    posts = conn.execute('SELECT * FROM livres').fetchall()
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM livres;')
+    data = cursor.fetchall()
     conn.close()
 
-    # Convertit la liste de livre en un format JSON
-    json_posts = [{'id': post['id'], 'title': post['title'], 'content': post['auteur']} for post in posts]
-
-    # Renvoie la réponse JSON
-    return jsonify(posts=json_posts)
-
-if __name__ == "__main__":                                                                                                             
+   # Construisez dynamiquement une chaîne de modèle HTML
+    template_string = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Bibliotheque</title>
+    </head>
+    <body>
+        <h1>Contenu de la base de données</h1>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TITRE</th>
+                <th>AUTEUR</th>
+            </tr>
+            {% for row in data %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+    </html>
+    """
+    return render_template_string(template_string, data=data)
+                                                                                                                                       
+if __name__ == "__main__":
   app.run(debug=True)
