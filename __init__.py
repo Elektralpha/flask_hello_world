@@ -8,7 +8,7 @@ app = Flask(__name__)
                                                                                                                                        
 @app.route('/')
 def hello_world():
-    return render_template('Site2')
+    return render_template('hello.html')
 
 @app.route('/fr/')
 def hello_world_fr():
