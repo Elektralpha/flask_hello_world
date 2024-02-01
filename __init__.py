@@ -33,7 +33,7 @@ def meteo():
 
 @app.route('/post/<int:post_id>/')
 def get_post(post_id):
-    conn = get_db_connection()
+    conn = sqlite3.connect('database.db')
     post = conn.execute('SELECT * FROM livres WHERE', (post_id,)).fetchone()
     conn.close()
 
