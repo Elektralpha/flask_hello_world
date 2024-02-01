@@ -6,6 +6,7 @@ from flask import jsonify
 import sqlite3
 
 app = Flask(__name__)
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
 # Définition de la fonction pour obtenir la connexion à la base de données
 def get_db_connection():
