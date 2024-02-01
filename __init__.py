@@ -31,10 +31,10 @@ def meteo():
     return jsonify(results=results)
 
 
-@app.route('/post/<int:post_id>')
+@app.route('/post/<int:post_id>/')
 def get_post(post_id):
     conn = get_db_connection()
-    post = conn.execute('SELECT * FROM livres WHERE id = ?', (post_id,)).fetchone()
+    post = conn.execute('SELECT * FROM livres WHERE', (post_id,)).fetchone()
     conn.close()
 
     # Si la publication avec l'ID spécifié n'est pas trouvée, renvoie une réponse 404 Not Found
