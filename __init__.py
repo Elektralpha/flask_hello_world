@@ -35,26 +35,20 @@ def meteo():
 
 @app.route('/post/<int:post_id>')
 def get_post(post_id):
-    try:
-        # Utilisation de with pour garantir la fermeture automatique de la connexion
-        with sqlite3.connect('database.db') as conn:
-            post = conn.execute('SELECT * FROM livres WHERE id = ?', (post_id,)).fetchone()
+    conn = get_db_connection()
+    post = conn.execute('SELECT * FROM livres WHERE id = ?', (post_id,)).fetchone()
+    conn.close()
 
-        # Si la publication avec l'ID spécifié n'est pas trouvée, renvoie une réponse 404 Not Found
-        if post is None:
-            return jsonify(error='Post not found'), 404
+    # Si la publication avec l'ID spécifié n'est pas trouvée, renvoie une réponse 404 Not Found
+    if post is None:
+        return jsonify(error='Post not found'), 404
 
-        # Convertit la publication en un format JSON
-        json_post = {'id': post['id'], 'title': post['title'], 'auteur': post['auteur']}
-        
-        # Renvoie la réponse JSON
-        return jsonify(post=json_post)
-
-    except Exception as e:
-        # Gère les erreurs de manière appropriée, par exemple, renvoie une réponse 500 Internal Server Error
-        return jsonify(error=str(e)), 500
-
-
+    # Convertit la publication en un format JSON
+    json_post = {'id': post['id'], 'title': post['title'], 'auteur': post['auteur']}
+    
+    # Renvoie la réponse JSON
+    return jsonify(post=json_post)
+  
 @app.route('/lecture/')
 def ReadBDD():
     conn = sqlite3.connect('database.db')
