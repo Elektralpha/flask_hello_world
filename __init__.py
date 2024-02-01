@@ -1,4 +1,6 @@
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, render_template, jsonify
+from flask import json
+from urllib.request import urlopen
 from flask import render_template   
 import sqlite3
 
