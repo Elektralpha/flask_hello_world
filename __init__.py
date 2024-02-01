@@ -5,7 +5,13 @@ from flask import render_template
 from flask import jsonify
 import sqlite3
 
-app = Flask(__name__)                                                                                                                  
+app = Flask(__name__)
+
+# Définition de la fonction pour obtenir la connexion à la base de données
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row  # Permet de récupérer les résultats sous forme de dictionnaire
+    return conn
                                                                                                                                        
 @app.route('/')
 def hello_world():
