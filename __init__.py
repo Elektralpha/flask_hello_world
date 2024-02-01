@@ -33,9 +33,8 @@ def meteo():
 
 @app.route('/post/<int:post_id>')
 def get_post(post_id):
-     conn = sqlite3.connect('database.db')
-  
-    post = conn.execute('SELECT * FROM livres WHERE id = ', (post_id,)).fetchone()
+    conn = get_db_connection()
+    post = conn.execute('SELECT * FROM livres WHERE id = ?', (post_id,)).fetchone()
     conn.close()
 
     # Si la publication avec l'ID spécifié n'est pas trouvée, renvoie une réponse 404 Not Found
@@ -47,8 +46,6 @@ def get_post(post_id):
     
     # Renvoie la réponse JSON
     return jsonify(post=json_post)
-# Création d'une nouvelle route pour la lecture de la BDD
-
 
 @app.route('/lecture/')
 def ReadBDD():
