@@ -35,7 +35,7 @@ def meteo():
 def get_post(post_id):
      conn = sqlite3.connect('database.db')
   
-    post = conn.execute('SELECT * FROM livres WHERE id = ?', (post_id,)).fetchone()
+    post = conn.execute('SELECT * FROM livres WHERE id = ', (post_id,)).fetchone()
     conn.close()
 
     # Si la publication avec l'ID spécifié n'est pas trouvée, renvoie une réponse 404 Not Found
